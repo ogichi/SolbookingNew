@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HotelesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Habitacione">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Tipo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+    <Property Name="HotelId" Type="Int32" />
+    <NavigationProperty Name="Hotele" Relationship="Self.FK__Habitacio__Hotel__4BAC3F29" FromRole="Habitaciones" ToRole="Hoteles" />
+  </EntityType>
+  <EntityType Name="Hotele">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CIF" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Ciudad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FechaModificacion" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Habitaciones" Relationship="Self.FK__Habitacio__Hotel__4BAC3F29" FromRole="Hoteles" ToRole="Habitaciones" />
+  </EntityType>
+  <Association Name="FK__Habitacio__Hotel__4BAC3F29">
+    <End Role="Hoteles" Type="Self.Hotele" Multiplicity="0..1" />
+    <End Role="Habitaciones" Type="Self.Habitacione" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hoteles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Habitaciones">
+        <PropertyRef Name="HotelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HotelesEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Habitaciones" EntityType="Self.Habitacione" />
+    <EntitySet Name="Hoteles" EntityType="Self.Hotele" />
+    <AssociationSet Name="FK__Habitacio__Hotel__4BAC3F29" Association="Self.FK__Habitacio__Hotel__4BAC3F29">
+      <End Role="Hoteles" EntitySet="Hoteles" />
+      <End Role="Habitaciones" EntitySet="Habitaciones" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
